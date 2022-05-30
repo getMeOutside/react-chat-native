@@ -3,7 +3,7 @@
  * @flow strict-local
  */
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Provider} from 'react-redux';
 import {store} from './src/store/index';
 import {
@@ -24,15 +24,17 @@ import HomeScreen from './src/pages/Home';
 import DialogsScreen from './src/pages/Dialogs';
 
 import useStorage from './src/hooks/storage';
+// import useTheme from './src/hooks/useTheme';
+// import {useSelector} from 'react-redux';
 
-function LogoTitle() {
+const LogoTitle = () => {
   return (
     <Image
       style={{width: 30, height: 30}}
       source={{uri: 'https://exceed-team.com/assets/images/preview.png'}}
     />
   );
-}
+};
 
 const renderProfileButton = navigation => {
   return (
@@ -51,10 +53,9 @@ const renderProfileButton = navigation => {
 };
 
 const Stack = createNativeStackNavigator();
-// screenOptions={{headerShown: false}} for Stack.Navigator
+
 const App = () => {
   const [username, setUsername] = useStorage('user');
-  // const [auth, setAuth] = useState({});
 
   useEffect(() => {
     setUsername({

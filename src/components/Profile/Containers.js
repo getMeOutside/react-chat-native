@@ -1,46 +1,45 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 
-export const ActionButton = ({name, children}) => {
+export const ActionButton = ({name, themeSettings, children}) => {
   return (
     <TouchableOpacity activeOpacity={0.5}>
       <View style={styles.actionItem}>
         <View style={styles.actionCircle}>{children}</View>
-        <Text style={{marginTop: 3}}>{name}</Text>
+        <Text style={styles.name(themeSettings)}>{name}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export const SettingItem = ({children, title}) => {
+export const SettingItem = ({children, color, title}) => {
   return (
     <View style={styles.settingContainer}>
       <View style={styles.settingItem}>
         {children[0]}
-        <Text style={{fontSize: 16, marginLeft: 15}}>{title}</Text>
+        <Text style={styles.title(color)}>{title}</Text>
       </View>
       {children[1]}
     </View>
   );
 };
 
-export const TextInput = ({value}) => {
+export const TextInput = ({value, color}) => {
   return (
     <TouchableOpacity activeOpacity={0.5}>
       <View style={styles.settingClickableText}>
-        <Text style={styles.settingText}>{value}</Text>
-        <Text style={styles.goTo}>{'»'}</Text>
+        <Text style={styles.settingText(color)}>{value}</Text>
+        <Text style={styles.goTo(color)}>{'»'}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
-  name: {
-    fontSize: 20,
-    fontFamily: 'Kailasa-Bold',
-    marginTop: 8,
-  },
+  name: themeSettings => ({
+    marginTop: 3,
+    color: themeSettings.color,
+  }),
   actionItem: {
     alignItems: 'center',
   },
@@ -66,17 +65,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
+  title: color => ({
+    color: color,
+    fontSize: 16,
+    marginLeft: 15,
+  }),
   settingClickableText: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-  settingText: {
-    color: 'rgba(0, 0, 0, 0.35)',
+  settingText: color => ({
+    color: color,
     fontSize: 16,
-  },
-  goTo: {
-    color: 'rgba(0, 0, 0, 0.35)',
+  }),
+  goTo: color => ({
+    color: color,
     fontSize: 16,
     marginLeft: 5,
-  },
+  }),
 });

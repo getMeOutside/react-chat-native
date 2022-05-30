@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, FlatList, StyleSheet, useColorScheme} from 'react-native';
+import {View, FlatList, StyleSheet} from 'react-native';
 import {useSelector} from 'react-redux';
 
 import Message from '../components/Message';
@@ -25,10 +25,9 @@ const DATA = [
   },
 ];
 
-const HomeScreen = () => {
-  const colorScheme = useColorScheme();
+const HomeScreen = (props) => {
   const count = useSelector(state => state.toolkit.count);
-  
+
   return (
     <View style={styles.body}>
       <View style={styles.messages}>

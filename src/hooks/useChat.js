@@ -1,8 +1,10 @@
 import {useEffect, useRef, useState} from 'react';
 import {io} from 'socket.io-client';
-import {SERVER_URI} from '../constants/constants';
+import {SERVER_URI} from '../constants';
+import {useSelector} from 'react-redux';
 
 const useChat = user => {
+  // const {} = useSelector(state => state.TEST);
   const [messages, setMessages] = useState([]);
   const {current: socket} = useRef(
     io(SERVER_URI, {
