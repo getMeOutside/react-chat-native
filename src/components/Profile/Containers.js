@@ -1,20 +1,24 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import {useSelector} from 'react-redux';
 
-export const ActionButton = ({name, themeSettings, children}) => {
+export const ActionButton = ({name, color, children}) => {
   return (
     <TouchableOpacity activeOpacity={0.5}>
       <View style={styles.actionItem}>
         <View style={styles.actionCircle}>{children}</View>
-        <Text style={styles.name(themeSettings)}>{name}</Text>
+        <Text style={styles.name(color)}>{name}</Text>
       </View>
     </TouchableOpacity>
   );
 };
 
-export const SettingItem = ({children, color, title}) => {
+export const SettingItem = ({children, title}) => {
+  const {dark, colors} = useSelector(state => state.theme);
+  const {color, driverColor} = dark ? colors.dark : colors.white;
+
   return (
-    <View style={styles.settingContainer}>
+    <View style={styles.settingContainer(driverColor)}>
       <View style={styles.settingItem}>
         {children[0]}
         <Text style={styles.title(color)}>{title}</Text>
@@ -36,9 +40,9 @@ export const TextInput = ({value, color}) => {
 };
 
 const styles = StyleSheet.create({
-  name: themeSettings => ({
+  name: color => ({
     marginTop: 3,
-    color: themeSettings.color,
+    color: color,
   }),
   actionItem: {
     alignItems: 'center',
@@ -52,15 +56,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  settingContainer: {
+  settingContainer: driverColor => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 10,
     paddingHorizontal: 30,
-    borderBottomColor: 'rgba(0, 0, 0, 0.04)',
+    borderBottomColor: driverColor,
     borderBottomWidth: 2,
-  },
+  }),
   settingItem: {
     flexDirection: 'row',
     alignItems: 'center',

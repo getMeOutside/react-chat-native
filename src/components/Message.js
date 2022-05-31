@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 
-const Message = ({item}) => {
+const Message = ({item, themeSettings}) => {
   return (
     <>
       <Text style={styles.date}>Monday 9:38 AM</Text>
@@ -21,9 +21,11 @@ const Message = ({item}) => {
           <Text style={styles.userName(item?.owner)}>Name Surname</Text>
           <TouchableOpacity
             onPress={() => console.log('react on message')}
-            style={styles.item(item?.owner)}
+            style={styles.item(item?.owner, themeSettings)}
             activeOpacity={0.5}>
-            <Text style={styles.text(item?.owner)}>{item.text}</Text>
+            <Text style={styles.text(item?.owner, themeSettings.color)}>
+              {item.text}
+            </Text>
             <Text style={styles.messageDate(item?.owner)}>10:53</Text>
           </TouchableOpacity>
         </View>
@@ -51,11 +53,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
     width: '100%',
   }),
-  item: isOwner => ({
+  item: (isOwner, themeSettings) => ({
     flex: 1,
     alignSelf: isOwner ? 'flex-end' : 'flex-start',
     maxWidth: '75%',
-    backgroundColor: isOwner ? '#0078FF' : '#E9E9EB',
+    backgroundColor: isOwner
+      ? themeSettings.messageBackgroundOwner
+      : themeSettings.messageBackground,
     color: isOwner ? 'white' : 'black',
     paddingVertical: 7,
     paddingHorizontal: 12,
@@ -69,8 +73,8 @@ const styles = StyleSheet.create({
     marginBottom: 1,
     color: '#909093',
   }),
-  text: isOwner => ({
-    color: isOwner ? '#fff' : '#000',
+  text: (isOwner, color) => ({
+    color: isOwner ? '#fff' : color,
     fontSize: 15,
   }),
   date: {

@@ -11,16 +11,17 @@ import VoiceIcon from './icons/VoiceIcon';
 import AttachIcon from './icons/AttachIcon';
 import SendMessageIcon from './icons/SendMessageIcon';
 
-const SendMessage = () => {
+const SendMessage = ({themeSettings}) => {
   const [text, setText] = useState('');
+  const {color, secondaryColor} = themeSettings;
 
   return (
     <View style={styles.footerContent}>
       {/* <Image source={require('../icons/send.png')} style={styles.sideIcon} /> */}
-      <AttachIcon />
-      <View style={styles.input}>
+      <AttachIcon color={color} />
+      <View style={styles.input(secondaryColor)}>
         <TextInput
-          style={styles.inputText}
+          style={styles.inputText(color)}
           placeholder="..."
           onChangeText={newText => setText(newText)}
           defaultValue={text}
@@ -29,9 +30,9 @@ const SendMessage = () => {
           source={require('../icons/dictation.png')}
           style={styles.voiceIcon}
         /> */}
-        <VoiceIcon />
+        <VoiceIcon color={color} />
       </View>
-      <SendMessageIcon />
+      <SendMessageIcon color={color} />
       {/* <Image source={require('../icons/send.png')} style={styles.sideIcon} /> */}
     </View>
   );
@@ -43,13 +44,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  input: {
+  input: color => ({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     width: 230,
     height: 34,
-    borderColor: '#rgba(51,51,51,.1)',
+    borderColor: color,
     borderWidth: 2,
     borderRadius: 20,
     fontSize: 15,
@@ -58,11 +59,12 @@ const styles = StyleSheet.create({
     paddingBottom: 3,
     paddingLeft: 13,
     marginHorizontal: 20,
-  },
-  inputText: {
+  }),
+  inputText: color => ({
+    color: color,
     width: 175,
     height: '100%',
-  },
+  }),
   voiceIcon: {
     height: 25,
     width: 25,

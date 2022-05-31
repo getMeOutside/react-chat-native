@@ -2,34 +2,36 @@ import React from 'react';
 import {View, Image, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 
-const HeaderItem = ({item, index, isActive, swiper}) => {
+const HeaderItem = ({item, index, swiper, currentColor}) => {
   const {title, hasNewMessages} = item;
-  console.log("goint to ", index)
+
   return (
     <TouchableOpacity
       style={{flexDirection: 'row', alignItems: 'center'}}
       activeOpacity={0.5}
       onPress={() => swiper.current.scrollBy(index)}>
       {hasNewMessages && <View style={styles.indicator} />}
-      <Text style={styles.categoryName(isActive)}>{title}</Text>
+      <Text style={styles.categoryName(currentColor)}>{title}</Text>
     </TouchableOpacity>
   );
 };
 
-export const HeaderItems = ({activeTab, swiper}) => {
+export const HeaderItems = ({activeTab, swiper, color, secondaryColor}) => {
   const {categories} = useSelector(state => state.chatsSlice);
-  
+
   return (
     <View style={styles.header}>
       {categories.map((item, index) => {
         const isActive = activeTab === index;
+        const currentColor = isActive ? color : secondaryColor;
+
         return (
           <View style={styles.headerGroup} key={`category-${index}`}>
             <HeaderItem
               item={item}
               index={index}
-              isActive={isActive}
               swiper={swiper}
+              currentColor={currentColor}
             />
           </View>
         );
@@ -38,18 +40,22 @@ export const HeaderItems = ({activeTab, swiper}) => {
   );
 };
 
-export const ChatItem = (item) => {
+export const ChatItem = item => {
   const {userName, chatName, avatar, text, date, lastMessage} = item.item;
   const groutChatMessage =
     lastMessage && `${lastMessage.authorName}: ${lastMessage.text}`;
+  const {dark, colors} = useSelector(state => state.theme);
+  const {color, secondaryColor, driverColor} = dark
+    ? colors.dark
+    : colors.white;
 
   return (
-    <TouchableOpacity style={styles.message}>
+    <TouchableOpacity style={styles.message(driverColor)}>
       <Image style={styles.messageAvatar} source={{uri: avatar}} />
       <View style={styles.info}>
         <View style={styles.messageHeader}>
-          <Text style={styles.userName}>{userName || chatName}</Text>
-          <Text>{'>'}</Text>
+          <Text style={styles.userName(color)}>{userName || chatName}</Text>
+          <Text style={{color: secondaryColor}}>{'>'}</Text>
         </View>
         <Text style={styles.messageText}>{text || groutChatMessage}</Text>
       </View>
@@ -74,18 +80,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#3478F6',
     marginRight: 5,
   },
-  categoryName: isActive => ({
+  categoryName: currentColor => ({
     fontSize: 15,
-    color: isActive ? 'black' : '#909093',
+    color: currentColor,
   }),
-  message: {
+  message: borderColor => ({
     flex: 1,
     height: 70,
     alignItems: 'center',
     flexDirection: 'row',
-    borderBottomColor: '#cecece',
+    borderBottomColor: borderColor,
     borderBottomWidth: 1,
-  },
+  }),
   messageAvatar: {
     height: 46,
     width: 46,
@@ -99,10 +105,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  userName: {
+  userName: color => ({
     fontSize: 17,
     fontWeight: '500',
-  },
+    color: color,
+  }),
   messageText: {
     color: '#909093',
     fontSize: 15,

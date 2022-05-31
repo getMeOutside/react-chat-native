@@ -15,15 +15,16 @@ const ProfileScreen = () => {
   const [isEnabled, setIsEnabled] = useState(false);
   const dispatch = useDispatch();
   const {dark, colors} = useSelector(state => state.theme);
-  const themeSettings = dark ? colors.dark : colors.white;
-
+  const {color, backgroundColor, secondaryColor} = dark
+    ? colors.dark
+    : colors.white;
   const toggleSwitch = () => {
     setIsEnabled(previousState => !previousState);
     dispatch(toggle());
   };
 
   return (
-    <View style={styles.body(themeSettings.backgroundColor)}>
+    <View style={styles.body(backgroundColor)}>
       <View style={styles.profileInfo}>
         <View style={styles.infoContainer}>
           <TouchableOpacity activeOpacity={0.5}>
@@ -34,22 +35,20 @@ const ProfileScreen = () => {
               }}
             />
           </TouchableOpacity>
-          <Text style={styles.name(themeSettings.color)}>Чмоня Уважаемый</Text>
-          <Text style={styles.status(themeSettings.secondaryColor)}>
-            Online
-          </Text>
+          <Text style={styles.name(color)}>Чмоня Уважаемый</Text>
+          <Text style={styles.status(secondaryColor)}>Online</Text>
           <View style={styles.actions}>
-            <ActionButton name={'Звонок'} themeSettings={themeSettings}>
-              <VideoIcon color={themeSettings.color} />
+            <ActionButton name={'Звонок'} color={color}>
+              <VideoIcon color={color} />
             </ActionButton>
-            <ActionButton name={'Профиль'} themeSettings={themeSettings}>
-              <ProfileIcon color={themeSettings.color} />
+            <ActionButton name={'Профиль'} color={color}>
+              <ProfileIcon color={color} />
             </ActionButton>
-            <ActionButton name={'Звук'} themeSettings={themeSettings}>
-              <SoundIcon color={themeSettings.color} />
+            <ActionButton name={'Звук'} color={color}>
+              <SoundIcon color={color} />
             </ActionButton>
-            <ActionButton name={'Измен.'} themeSettings={themeSettings}>
-              <EditIcon color={themeSettings.color} />
+            <ActionButton name={'Измен.'} color={color}>
+              <EditIcon color={color} />
             </ActionButton>
           </View>
         </View>
@@ -58,7 +57,7 @@ const ProfileScreen = () => {
         <OwnerSettings
           toggleSwitch={toggleSwitch}
           isEnabled={isEnabled}
-          themeSettings={themeSettings}
+          secondaryColor={secondaryColor}
         />
       </View>
     </View>

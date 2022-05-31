@@ -5,10 +5,10 @@ import DarkModeIcon from '../icons/DarkMode';
 import TagIcon from '../icons/NickName';
 import PhoneIcon from '../icons/Phone';
 
-const OwnerSettings = ({toggleSwitch, themeSettings, isEnabled}) => {
+const OwnerSettings = ({toggleSwitch, secondaryColor, isEnabled}) => {
   return (
     <>
-      <SettingItem title={'Темная тема'} color={themeSettings.color}>
+      <SettingItem title={'Темная тема'}>
         <DarkModeIcon />
         <Switch
           trackColor={{false: 'whitesmoke', true: '#2ecc71'}}
@@ -17,13 +17,13 @@ const OwnerSettings = ({toggleSwitch, themeSettings, isEnabled}) => {
           value={isEnabled}
         />
       </SettingItem>
-      <SettingItem title={'Никнейм'} color={themeSettings.color}>
+      <SettingItem title={'Никнейм'}>
         <TagIcon />
-        <TextInput value={'chat/cat'} color={themeSettings.secondaryColor} />
+        <TextInput value={'chat/cat'} color={secondaryColor} />
       </SettingItem>
-      <SettingItem title={'Телефон'} color={themeSettings.color}>
+      <SettingItem title={'Телефон'}>
         <PhoneIcon />
-        <TextInput value={'79514000000'} color={themeSettings.secondaryColor} />
+        <TextInput value={'79514000000'} color={secondaryColor} />
       </SettingItem>
     </>
   );
